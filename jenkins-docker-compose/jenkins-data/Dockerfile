@@ -7,7 +7,7 @@ RUN adduser -h "/var/jenkins_home" -u 1000 -D -s /bin/ash jenkins
 RUN mkdir -p /var/log/jenkins
 RUN chown -R jenkins:jenkins /var/log/jenkins
 
-VOLUME ["/var/log/jenkins", "/var/jenkins_home"]
+VOLUME ["/var/log/jenkins", "/var/jenkins_home", "/root/.m2"]
 
 USER jenkins
 
