@@ -27,6 +27,7 @@ RUN set -x \
 	&& docker -v
 
 COPY scripts/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Install Maven
 ENV MAVEN_VERSION 3.3.9
@@ -50,4 +51,4 @@ ENV JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/log.properties"
 ENV JENKINS_OPTS="--logfile=/var/log/jenkins/jenkins.log --webroot=/var/cache/jenkins/war"
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["sh"]
+CMD ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
