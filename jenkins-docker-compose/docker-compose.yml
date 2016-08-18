@@ -1,7 +1,14 @@
+version: '2'
+
 jenkinsdata:
   build: jenkins-data
 jenkinsmaster:
   build: jenkins-master
+  args:
+    DOCKER_GID: ${DOCKER_GID}
+    DOCKER_ENGINE: ${DOCKER_ENGINE}
+    DOCKER_COMPOSE: ${DOCKER_COMPOSE}
+    MAVEN_VERSION: ${MAVEN_VERSION}
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   volumes_from:
