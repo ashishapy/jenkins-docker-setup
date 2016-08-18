@@ -2,6 +2,8 @@ jenkinsdata:
   build: jenkins-data
 jenkinsmaster:
   build: jenkins-master
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
   volumes_from:
     - jenkinsdata
   ports:

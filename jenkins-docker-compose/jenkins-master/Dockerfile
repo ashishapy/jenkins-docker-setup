@@ -6,7 +6,27 @@ MAINTAINER Ashish Pandey "ashishapy@gmail.com"
 USER root
 
 # Install packages
-RUN apk add --update tar
+RUN apk add --no-cache \
+		ca-certificates \
+		curl \
+		openssl \
+		tar
+
+# Install Docker
+ENV DOCKER_BUCKET get.docker.com
+ENV DOCKER_VERSION 1.12.0
+ENV DOCKER_SHA256 3dd07f65ea4a7b4c8829f311ab0213bca9ac551b5b24706f3e79a97e22097f8b
+
+RUN set -x \
+	&& curl -fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
+	&& echo "${DOCKER_SHA256} *docker.tgz" | sha256sum -c - \
+	&& tar -xzvf docker.tgz \
+	&& mv docker/* /usr/local/bin/ \
+	&& rmdir docker \
+	&& rm docker.tgz \
+	&& docker -v
+
+COPY scripts/docker-entrypoint.sh /usr/local/bin/
 
 # Install Maven
 ENV MAVEN_VERSION 3.3.9
@@ -25,6 +45,9 @@ RUN chown -R jenkins:jenkins /var/log/jenkins
 RUN chown -R jenkins:jenkins /var/cache/jenkins
 USER jenkins
 
-# Set default options
+# Set default Jenkins options
 ENV JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/log.properties"
 ENV JENKINS_OPTS="--logfile=/var/log/jenkins/jenkins.log --webroot=/var/cache/jenkins/war"
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["sh"]
