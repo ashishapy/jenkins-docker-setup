@@ -36,7 +36,7 @@ RUN set -x \
 	&& docker -v
 
 # Install Docker Compose
-RUN pip install 'docker-compose==${DOCKER_COMPOSE:-1.8.0}' \
+RUN pip install "docker-compose==${DOCKER_COMPOSE:-1.8.0}" \
 	&& docker-compose -v
 
 # Docker entrypoint script

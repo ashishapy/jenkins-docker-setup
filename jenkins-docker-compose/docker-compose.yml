@@ -8,7 +8,6 @@ services:
     build:
       context: jenkins-master
       args:
-        DOCKER_GID: ${DOCKER_GID}
         DOCKER_ENGINE: ${DOCKER_ENGINE}
         DOCKER_COMPOSE: ${DOCKER_COMPOSE}
         MAVEN_VERSION: ${MAVEN_VERSION}
