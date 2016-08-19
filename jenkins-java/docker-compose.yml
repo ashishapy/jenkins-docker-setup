@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  jenkinsdata:
+    build: 
+      context: jenkins-data
+  jenkinsmaster:
+    build:
+      context: jenkins-master
+      args:
+        DOCKER_ENGINE: ${DOCKER_ENGINE}
+        DOCKER_SHA256: ${DOCKER_SHA256}
+        DOCKER_COMPOSE: ${DOCKER_COMPOSE}
+        MAVEN_VERSION: ${MAVEN_VERSION}
+    user: jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - jenkinsdata
+    ports:
+      - "50000:50000"
+  jenkinsnginx:
+    build:
+      context: jenkins-nginx
+    ports:
+      - "80:80"
+    links:
+      - jenkinsmaster:jenkins-master
