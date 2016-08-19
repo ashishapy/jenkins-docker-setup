@@ -8,16 +8,16 @@ USER root
 # Install packages
 RUN apk add --no-cache \
 		ca-certificates \
-		curl \
 		openssl \
-		tar
+		tar \
+		py-pip
 
 # Used to set the docker group ID
-ARG DOCKER_GID=999
+# ARG DOCKER_GID=999
 
 # Create Docker Group with GID
 # Set default value of 999 if DOCKER_GID set to blank string by Docker Compose
-RUN groupadd -g ${DOCKER_GID:-999} docker
+# RUN addgroup -g ${DOCKER_GID:-999} docker
 
 # Used to control Docker and Docker Compose versions installed
 ARG DOCKER_ENGINE=1.12.0
@@ -33,13 +33,11 @@ RUN set -x \
 	&& mv docker/* /usr/local/bin/ \
 	&& rmdir docker \
 	&& rm docker.tgz \
-	&& docker -v \
-	&& usermod -aG docker jenkins && \
-    && usermod -aG users jenkins
+	&& docker -v
 
 # Install Docker Compose
-RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE:-1.8.0}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose \
-	&& chmod +x /usr/local/bin/docker-compose
+RUN pip install 'docker-compose==${DOCKER_COMPOSE:-1.8.0}' \
+	&& docker-compose -v
 
 # Docker entrypoint script
 COPY scripts/docker-entrypoint.sh /usr/local/bin/
@@ -55,11 +53,13 @@ RUN mkdir -p /usr/share/maven \
 
 ENV MAVEN_HOME /usr/share/maven
 
-# Create Jenkins Log Folder
+# Create Jenkins user and log Folder
 RUN mkdir /var/log/jenkins \
 	&& mkdir /var/cache/jenkins \
 	&& chown -R jenkins:jenkins /var/log/jenkins \
-	&& chown -R jenkins:jenkins /var/cache/jenkins
+	&& chown -R jenkins:jenkins /var/cache/jenkins \
+	&& adduser jenkins wheel \
+    && echo "jenkins    ALL=(ALL)    ALL" >> etc/sudoers
 
 # Change to jenkins user
 USER jenkins
