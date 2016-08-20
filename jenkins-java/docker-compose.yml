@@ -12,7 +12,6 @@ services:
         DOCKER_SHA256: ${DOCKER_SHA256}
         DOCKER_COMPOSE: ${DOCKER_COMPOSE}
         MAVEN_VERSION: ${MAVEN_VERSION}
-    user: jenkins
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
