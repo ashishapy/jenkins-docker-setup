@@ -57,8 +57,10 @@ ENV MAVEN_HOME /usr/share/maven
 RUN mkdir /var/log/jenkins \
 	&& mkdir /var/cache/jenkins \
 	&& chown -R jenkins:jenkins /var/log/jenkins \
-	&& chown -R jenkins:jenkins /var/cache/jenkins
-	# TODO: add jenkins user to docker group
+	&& chown -R jenkins:jenkins /var/cache/jenkins \
+	# add jenkins user to the group with default group id 999
+	# TODO: use ARG for group name, instead of hardcoding group name
+	&& adduser jenkins ping
 
 # Change to jenkins user
 USER jenkins
