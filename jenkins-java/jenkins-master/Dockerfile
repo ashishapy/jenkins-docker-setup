@@ -6,11 +6,14 @@ MAINTAINER Ashish Pandey "ashishapy@gmail.com"
 USER root
 
 # Install packages
-RUN apk add --no-cache \
+RUN apk update && apk upgrade \
+	&& apk add \
 		ca-certificates \
 		openssl \
 		tar \
-		py-pip
+		py-pip \
+		make \
+	&& rm -rf /var/cache/apk/*
 
 # Used to control Docker and Docker Compose versions installed
 ARG DOCKER_ENGINE=1.12.0
