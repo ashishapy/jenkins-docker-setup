@@ -1,4 +1,4 @@
-FROM jenkins:2.7.2-alpine
+FROM jenkins:2.7.3-alpine
 
 MAINTAINER Ashish Pandey "ashishapy@gmail.com"
 
