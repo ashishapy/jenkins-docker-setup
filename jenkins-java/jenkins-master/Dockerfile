@@ -1,4 +1,4 @@
-FROM jenkins:2.19.1-alpine
+FROM jenkins:2.19.4-alpine
 
 MAINTAINER Ashish Pandey "ashishapy@gmail.com"
 
@@ -16,9 +16,9 @@ RUN apk update && apk upgrade \
 	&& rm -rf /var/cache/apk/*
 
 # Used to control Docker and Docker Compose versions installed
-ARG DOCKER_ENGINE=1.12.1
-ARG DOCKER_SHA256=05ceec7fd937e1416e5dce12b0b6e1c655907d349d52574319a1e875077ccb79
-ARG DOCKER_COMPOSE=1.8.1
+ARG DOCKER_ENGINE=1.12.5
+ARG DOCKER_SHA256=0058867ac46a1eba283e2441b1bb5455df846144f9d9ba079e97655399d4a2c6
+ARG DOCKER_COMPOSE=1.9.0
 ENV DOCKER_BUCKET get.docker.com
 
 # Used to set the docker group ID
@@ -30,8 +30,8 @@ ENV DOCKER_BUCKET get.docker.com
 
 # Install Docker Engine
 RUN set -x \
-	&& curl -fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-${DOCKER_ENGINE:-1.12.1}.tgz" -o docker.tgz \
-	&& echo "${DOCKER_SHA256:-05ceec7fd937e1416e5dce12b0b6e1c655907d349d52574319a1e875077ccb79} *docker.tgz" | sha256sum -c - \
+	&& curl -fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-${DOCKER_ENGINE:-1.12.5}.tgz" -o docker.tgz \
+	&& echo "${DOCKER_SHA256:-0058867ac46a1eba283e2441b1bb5455df846144f9d9ba079e97655399d4a2c6} *docker.tgz" | sha256sum -c - \
 	&& tar -xzvf docker.tgz \
 	&& mv docker/* /usr/local/bin/ \
 	&& rmdir docker \
@@ -39,7 +39,7 @@ RUN set -x \
 	&& docker -v
 
 # Install Docker Compose
-RUN pip install "docker-compose==${DOCKER_COMPOSE:-1.8.1}" \
+RUN pip install "docker-compose==${DOCKER_COMPOSE:-1.9.0}" \
 	&& docker-compose -v
 
 # Docker entrypoint script

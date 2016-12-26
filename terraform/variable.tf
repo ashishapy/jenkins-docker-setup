@@ -18,10 +18,10 @@ variable "aws_region" {
   default     = "us-west-2"
 }
 
-# Docker 1.12.1 & Docker Compose 1.8.1 installed on Ubuntu 16.0 LTS (x64)
+# Docker 1.12.5 & Docker Compose 1.9 installed on Ubuntu 16.04 LTS (HVM)
 variable "aws_amis" {
   default = {
-    us-west-2 = "ami-7b3ce41b"
+    us-west-2 = "ami-1bb3057b"
   }
 }
 
