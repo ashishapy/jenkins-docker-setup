@@ -1,9 +1,10 @@
-version: '2'
+version: "2"
 
 services:
   jenkinsdata:
     build: 
       context: jenkins-data
+  
   jenkinsmaster:
     build:
       context: jenkins-master
@@ -18,6 +19,7 @@ services:
       - jenkinsdata
     ports:
       - "50000:50000"
+  
   jenkinsnginx:
     build:
       context: jenkins-nginx

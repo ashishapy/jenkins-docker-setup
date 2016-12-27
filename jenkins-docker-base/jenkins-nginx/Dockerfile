@@ -1,4 +1,4 @@
-FROM nginx:1.10.1-alpine
+FROM nginx:1.10.2-alpine
 
 MAINTAINER Ashish Pandey "ashishapy@gmail.com"
 
