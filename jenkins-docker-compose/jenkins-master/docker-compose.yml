@@ -5,7 +5,7 @@ services:
     build: ./jenkins-data
   
   jenkinsmaster:
-    build: ./jenkins-master
+    build: .
     volumes_from:
       - jenkinsdata
     ports:
